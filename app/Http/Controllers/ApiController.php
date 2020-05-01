@@ -10,11 +10,11 @@ class ApiController extends Controller
     public function index()
     {
         $tools = Tools::all();
-        foreach($tools as $tool){
-            $tool->tags = explode(',', $tool->tags);
-        }
 
         if($tools != null){
+            foreach($tools as $tool){
+                $tool->tags = explode(',', $tool->tags);
+            }
             return response($tools,200)
                 ->header('Content-type','application/json');
         }
@@ -35,15 +35,22 @@ class ApiController extends Controller
                 ->header('Content-Type','application/json');
     }
 
-    public function findByTag($tag)
+    public function findByTag(Request $request)
     {
-        return 'findByTag' . $tag;
+        if(!$request->query('tag')){
+            return response('Query string inválida!',400)
+                ->header('Content-type','text/plain');
+        }
+        $tag = $request->query('tag');
+        $tool = Tools::where('tags', 'LIKE', '%'. $tag . '%')->get();
+        return response($tool,200)
+            ->header('Content-type','application/json');
     }
 
     public function destroy($id)
     {
         $tool = Tools::findOrFail($id);
-        if(!$tool->destroy()){
+        if(!$tool->delete()){
             return response('Não foi possível excluir o recurso...', 406)
                 ->header('Content-type','text/plain');
         }

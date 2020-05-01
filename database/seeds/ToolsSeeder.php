@@ -16,9 +16,9 @@ class ToolsSeeder extends Seeder
         for($i=0; $i<=15; $i++){
             Tools::create([
                 'title' => $faker->sentence(),
-                'link'  => 'http://google.com',
+                'link'  => $faker->url(),
                 'description' => $faker->sentence(),
-                'tags' => "teste, php, devops"
+                'tags' => $faker->words(4)
             ]);
         }
     }

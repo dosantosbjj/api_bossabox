@@ -1,22 +1,17 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
+/*DESCOMENTAR E ACESSAR A ROTA PARA GERAR UMA KEY
+$router->get('/key', function() {
+    return \Illuminate\Support\Str::random(32);
+});
 */
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/tools','ApiController@index');
-$router->get('/tools?tag={tag}','ApiController@findByTag');
+$router->get('/tools/all','ApiController@index');
+$router->get('/tools','ApiController@findByTag');
 $router->post('/tools/create','ApiController@create');
-$router->delete('/tools/delete/{id}','ApiController@delete');
+$router->delete('/tools/delete/{id}','ApiController@destroy');
 
